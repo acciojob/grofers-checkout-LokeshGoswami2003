@@ -3,28 +3,31 @@ getSumBtn.append("Get Total Price");
 document.body.appendChild(getSumBtn);
 
 const getSum = () => {
-  // Select all the price cells
+  // Collect all prices
   const prices = document.querySelectorAll(".price");
-  
   let total = 0;
-  prices.forEach((priceCell) => {
-    total += parseInt(priceCell.textContent);
+
+  prices.forEach((cell) => {
+    total += parseInt(cell.textContent) || 0; // handle editable values
   });
 
-  // Create a new row
+  // Remove old ans row if exists (avoid duplicates)
+  const oldAns = document.getElementById("ans");
+  if (oldAns) oldAns.remove();
+
+  // Create new row with id="ans"
   const table = document.querySelector("table");
   const newRow = document.createElement("tr");
   const newCell = document.createElement("td");
 
-  // Span across both columns
+  newCell.id = "ans";
   newCell.setAttribute("colspan", "2");
   newCell.style.fontWeight = "bold";
   newCell.style.textAlign = "center";
-  newCell.textContent = `Total Price = Rs ${total}`;
+  newCell.textContent = total;
 
   newRow.appendChild(newCell);
   table.appendChild(newRow);
 };
 
 getSumBtn.addEventListener("click", getSum);
-
